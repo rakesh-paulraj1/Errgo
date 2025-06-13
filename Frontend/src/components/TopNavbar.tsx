@@ -26,8 +26,8 @@ const TopNavbar: React.FC<TopNavbarProps> = ({ toggleSidebar }) => {
             </div>
         {/* Sidebar toggle button */}
         <button
-        // TODO: Fix this button button by adding the appropriate onClick behavior to toggle the sidebar
-          className="p-10 rounded transition-colors"
+          onClick={toggleSidebar}
+          className="p-5 rounded transition-colors hover:bg-gray-200"
         >
           <Menu className="h-5 w-5 text-gray-700" />
         </button>
