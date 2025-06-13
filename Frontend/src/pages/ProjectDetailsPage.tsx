@@ -1,22 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { IProject } from "../models/ProjectModels";
+import { getProjects } from "../controller/ProjectController";
 
 const ProjectDetailsPage = () => {
-    // TODO: Update this to useState
-    const projects: IProject[] | [] = [];
-
-    /**
-     * Fetch all the projects on load
-     */
+    // Use useState to manage the list of projects (array of IProject)
+    const [projects, setprojects] = useState<IProject[]>([]);
+   
     useEffect(() => {
         const initProjects = async() => {
-            /**
-             * TODO: Complete method to pull project details by calling `getProjects` from ProjectController.ts
-             */
+           
+           const data=await  getProjects()
+           setprojects(data);
         }
 
         initProjects();
-    }, []);
+    });
 
   return (
     <div className="flex flex-col flex-1">
@@ -42,7 +40,7 @@ const ProjectDetailsPage = () => {
                                 
                                 <div className="flex-grow">
                                 <div className="text-xs text-gray-500">Project Name</div>
-                                <div className="font-medium">{/* TODO: Show project name */}</div>
+                                <div className="font-medium">{project.name}</div>
                                 </div>
                                 
                                 {/* Dummy Button */}
@@ -53,7 +51,7 @@ const ProjectDetailsPage = () => {
                             
                             <div className="mb-6">
                                 <div className="text-xs text-gray-500">Description</div>
-                                <div className="text-sm">{/* TODO: Show project description */}</div>
+                                <div className="text-sm">{project.description}</div>
                             </div>
                             
                             {/* Share Button */}
