@@ -8,6 +8,7 @@ import './index.css'
 import { ProjectPage } from './pages/ProjectPage'
 import App from './App'
 import ProjectDetailsPage from './pages/ProjectDetailsPage'
+import { Chat } from './pages/Chat'
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <ProjectPage /> },
-      { path: 'project-details', element: <ProjectDetailsPage/> }
+      { path: 'project-details', element: <ProjectDetailsPage/> },
+      {path:"/chat",element:<Chat/>}
     ],
   },
 ]);

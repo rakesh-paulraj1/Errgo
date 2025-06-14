@@ -3,12 +3,16 @@ import cors from 'cors';
 import { IProject, ProjectSchema } from './models/project.interface';
 import { v4 as uuid } from 'uuid';
 import { ZodError } from 'zod';
+import { Server } from 'socket.io';
+import { createServer } from 'node:http';
 const app = express();
 const PORT = 3000;
 // List of projects
 const projects: IProject[] = [];
-
-// Setup cors and express.json()
+const server=createServer(app)
+const io = new Server(server, {
+  cors: { origin: '*', methods: ['GET', 'POST'] },
+});
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST"],
@@ -20,9 +24,10 @@ app.get('/', (_req, res) => {
   res.send('Errgo Backend Interview Module Loaded Successfully!');
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+
 
 app.post('/projects', (req, res) => {
 try{
@@ -53,6 +58,19 @@ try{
   return;
 }
 });
+io.on('connection', (socket) => {
+  console.log("Client connected:", socket.id);
+
+socket.on('send', (message, callback) => {
+  console.log("Received message:", message);
+  io.emit('message', { message });
+});
+
+  // socket.on('disconnect', () => {
+  //   console.log("Client disconnected:", socket.id);
+  // });
+});
+
 
 app.get('/projects', (req, res) => {
   res.status(200).json(projects);

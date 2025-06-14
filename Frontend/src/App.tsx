@@ -12,7 +12,10 @@ export default function App() {
 
     return (
         <div className="flex flex-col h-screen bg-white overflow-hidden">
-            <TopNavbar toggleSidebar={toggleSidebar} />
+            <TopNavbar 
+                toggleSidebar={toggleSidebar} 
+                isSidebarVisible={sidebarVisible}
+            />
             
             <div className="flex flex-1 overflow-hidden">
                 <div className={`transition-all duration-300 ${sidebarVisible ? 'w-64' : 'w-0'} flex-shrink-0 overflow-hidden`}>
