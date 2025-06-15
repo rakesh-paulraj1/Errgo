@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
-import { socket } from "../lib/socket";
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -13,10 +12,14 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim() && !isLoading) {
-      // Emit the message through socket
-      socket.emit('send', message);
       onSendMessage(message);
       setMessage("");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
     }
   };
 
@@ -26,6 +29,7 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
         type="text"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder="Type your message..."
         className="flex-1 px-4 py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary"
         disabled={isLoading}
